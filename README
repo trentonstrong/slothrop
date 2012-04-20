@@ -1,6 +1,6 @@
 # book-server
 
-FIXME: write description
+A server which exposes a library of epubs over HTTP endpoints.  Provides additional metadata and searchability endpoints as well.  Primarily useful for implementing thin client eBook readers.
 
 ## Usage
 
