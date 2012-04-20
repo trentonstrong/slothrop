@@ -15,7 +15,7 @@
     (-> @cache
         (cache/hit id)
         (get id))
-    (let [book  (read-epub "resources/pg76-images.epub")]
+    (let [book  (read-epub "resources/pg76.epub")]
       (println "cache miss for book id: " id)
       (swap! cache assoc id book)
       book)))
