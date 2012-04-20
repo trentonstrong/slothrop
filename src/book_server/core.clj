@@ -1,7 +1,7 @@
 (ns book-server.core
   (:require [clojure.java.io :as io])
   (:import [nl.siegmann.epublib.epub EpubReader]
-           [nl.siegmann.epublib.domain Book TableOfContents TOCReference SpineReference]))
+           [nl.siegmann.epublib.domain Book TableOfContents TOCReference SpineReference Resource]))
 
 (defn- read-epub-from-stream  [^java.io.InputStream stream]
   "Read an application/epub or application/epub+zip format file from a Java InputStream"
@@ -26,9 +26,9 @@
    :href (.getCompleteHref reference)
    :fragment (.getFragmentId reference)
    :resource-id (.getResourceId reference)
-   :children (resolve-references (.getChildren reference))))
+   :children (resolve-toc-references (.getChildren reference))))
            
-(defn get-toc-tree [^Book book]
+(defn get-toc [^Book book]
   "Get a map representation of a book's table of contents"
   (let [toc (.getTableOfContents book)]
     (hash-map
@@ -51,8 +51,30 @@
      :size (.size spine)
      :resources (map resolve-spine-reference (.getSpineReferences spine)))))
 
+(defn get-metadata [^Book book]
+  "Retrieve map representation of book metadata, such as title, author..."
+  (let [metadata (.getMetadata book)]
+    {:identifier (.getValue (or
+                  (first (filter #(.isBookId %) (.getIdentifiers metadata)))
+                  (first (.getIdentifiers metadata)))) 
+     :title (.getFirstTitle metadata)
+     :all_titles (.getTitles metadata)
+     :types (.getTypes metadata)
+     :subjects (.getSubjects metadata)
+     :descriptions (.getDescriptions metadata)
+     :language (.getLanguage metadata)
+     :format (.getFormat metadata)
+     :dates (map str (.getDates metadata))
+     :authors (map str (.getAuthors metadata))
+     :contributors (map str (.getContributors metadata))
+     :publishers (.getPublishers metadata)
+     :rights (.getRights metadata)}))
+
 (defn get-resource-by-href [^Book book href]
   "Retrieves a resource via its href"
   (let [resources (.getResources book)]
-    (.getByHref book href)))
-  
+    (.getByHref resources href)))
+
+(defn get-resource-content-type [^Resource resource]
+  "Determines and returns a resource's content type (mime-type)"
+  (.getName (.getMediaType resource)))
