@@ -1,4 +1,5 @@
-(ns book-server.books
+(ns slothrop.books
+  (:use slothrop.epub)
   (:import (org.apache.lucene.document
        Document Field Field$Store Field$Index NumericField)
      (org.apache.lucene.analysis.standard StandardAnalyzer)
@@ -23,7 +24,7 @@
       (swap! book-cache assoc id book)
       book)))
 
-(defn index-exists? [path]
+(defn inedx-exists? [path]
   "Verify that an index exists at the specified path and that it can be opened successfully."
   (if (.exists (File. path))
     (try
@@ -35,6 +36,8 @@
     false))
 
 (defn create-index [dir]
+  false)
   
   
 (defn index-books [dir]
+  false)

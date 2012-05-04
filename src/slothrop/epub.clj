@@ -1,6 +1,6 @@
-(ns book-server.epub
+(ns slothrop.epub
   (:require [clojure.java.io :as io]
-            [book-server.utils :as utils])
+            [slothrop.utils :as utils])
   (:import [nl.siegmann.epublib.epub EpubReader]
            [nl.siegmann.epublib.domain Book TableOfContents TOCReference SpineReference Resource]))
 

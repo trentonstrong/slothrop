@@ -1,4 +1,4 @@
-(ns book-server.utils
+(ns slothrop.utils
   (:import [java.security MessageDigest]))
 
 
