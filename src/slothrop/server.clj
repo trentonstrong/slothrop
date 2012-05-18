@@ -6,20 +6,10 @@
   (:use aleph.http
         noir.core
         lamina.core
-        chesire.core
-        slothrop.core))
+        cheshire.core
+        slothrop.books))
 
 (def cache (atom (cache/lru-cache-factory 10 {})))
-
-(defn- get-book-by-id [id]
-  (if (contains? @cache id)
-    (-> @cache
-        (cache/hit id)
-        (get id))
-    (let [book  (read-epub "resources/pg76.epub")]
-      (println "cache miss for book id: " id)
-      (swap! cache assoc id book)
-      book)))
 
 (defpage "/book/id/:id" {book-id :id}
   "Retrieves root metadata about a given book"
