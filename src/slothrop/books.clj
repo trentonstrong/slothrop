@@ -4,8 +4,6 @@
   (:use slothrop.epub
         slothrop.entity))
 
-(relational/defentity books
-  
 
 (def book-cache (atom (cache/lru-cache-factory 10 {})))
 

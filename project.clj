@@ -6,8 +6,10 @@
                  [org.clojure/core.cache "0.5.0"]
                  [cheshire "4.0.0"]
                  [korma "0.3.0-beta7"]
+                 [lobos "1.0.0-SNAPSHOT"]
                  [postgresql "9.0-801.jdbc4"]]
   :plugins [[lein-swank "1.4.4"]]
   :repositories {"psiegman-snapshots" "https://github.com/psiegman/mvn-repo/raw/master/snapshots"}
   :warn-on-reflection true
-  :main slothrop.server)
+  :ring {:handler slothrop.server/handler}
+  :main slothrop.core)

@@ -7,7 +7,8 @@
         noir.core
         lamina.core
         cheshire.core
-        slothrop.books))
+        slothrop.books
+        slothrop.epub))
 
 (def cache (atom (cache/lru-cache-factory 10 {})))
 
@@ -28,11 +29,5 @@
      :headers {"Content-Type" content-type}
      :body (.getInputStream resource)}))
 
-(defn- read-configuration [path]
-  "Reads server configuration file"
-  (parse-string (slurp path)))
-
-(defn -main [& args]
-  (let [config (read-configuration (first args))]
-    (if (index-exists? (:index :path config))
-    (server/start 8080))
+(def handler (server/gen-handler {:mode :dev
+                                  :ns 'slothrop.server}))
